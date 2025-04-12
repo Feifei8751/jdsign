@@ -1,0 +1,39 @@
+# run skyland.py
+name: Auto Sign
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run skyland.py
+        env:
+          GitHub_Actions: true
+          # 对于多个账号一定会有人机验证问题，且因为是密码，有一定的安全风险
+          # PHONE: ${{ secrets.PHONE }}
+          # PASSWORD: ${{ secrets.PASSWORD }}
+          TOKEN: ${{ secrets.TOKEN }}
+          appID: ${{secrets.appID}}
+          appsecret: ${{secrets.appsecret}}
+          touser: ${{secrets.touser}}
+          template_id: ${{secrets.template_id}}
+        run: |
+          python skyland.py
