@@ -24,7 +24,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run skyland.py
+      - name: Run jd.py
         env:
           GitHub_Actions: true
           # 对于多个账号一定会有人机验证问题，且因为是密码，有一定的安全风险
@@ -36,4 +36,4 @@ jobs:
           touser: ${{secrets.touser}}
           template_id: ${{secrets.template_id}}
         run: |
-          python skyland.py
+          python jd.py
