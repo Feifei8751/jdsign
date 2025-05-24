@@ -2,10 +2,6 @@ import os
 import requests
 
 #微信推送
-appID=os.getenv('appID')
-appsecret=os.getenv('appsecret')
-touser=os.getenv('touser')
-template_id=os.getenv('template_id')
 def get_access_token():
     # 获取access token的url
     url = f'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appID}&secret={appsecret}'
@@ -52,4 +48,8 @@ headers = {"Connection": 'keep-alive',
 
 response = requests.post(url=url, headers=headers)
 print(response.text)
+appID=os.getenv('appID')
+appsecret=os.getenv('appsecret')
+touser=os.getenv('touser')
+template_id=os.getenv('template_id')
 send('京东领京豆','领取成功！')
