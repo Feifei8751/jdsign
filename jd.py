@@ -1,6 +1,37 @@
 import os
 import requests
 
+#微信推送
+appID=os.getenv('appID')
+appsecret=os.getenv('appsecret')
+touser=os.getenv('touser')
+template_id=os.getenv('template_id')
+def get_access_token():
+    # 获取access token的url
+    url = f'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appID}&secret={appsecret}'
+    response = requests.get(url).json()
+    print(response)
+    access_token = response.get('access_token')
+    return access_token
+
+def send(txt,txt1):
+    body = {
+        "touser": touser,
+        "template_id": template_id,
+        "url": "https://www.655300.xyz",
+        "data": {
+            "text": {
+                "value": txt
+            },
+            "text1": {
+                "value": txt1
+            }
+        }
+    }
+    url = f'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={get_access_token()}'
+    print(requests.post(url, json.dumps(body)).text)
+
+
 cookie = os.environ.get("JD_COOKIE")
 
 url = ("https://api.m.jd.com/client.action?functionId=signBeanAct&body=%7B%22fp%22%3A%22-1%22%2C%22shshshfp%22%3A%22-1"
@@ -21,3 +52,4 @@ headers = {"Connection": 'keep-alive',
 
 response = requests.post(url=url, headers=headers)
 print(response.text)
+send('京东领京豆','领取成功！')
