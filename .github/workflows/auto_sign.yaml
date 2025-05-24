@@ -35,5 +35,6 @@ jobs:
           appsecret: ${{secrets.appsecret}}
           touser: ${{secrets.touser}}
           template_id: ${{secrets.template_id}}
+          JD_COOKIE: ${{secrets.JD-COOKIE}}
         run: |
           python jd.py
